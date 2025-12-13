@@ -2,7 +2,7 @@
 
 import {useState} from 'react';
 import {FaChevronDown} from 'react-icons/fa';
-import SectionHeader from '@/app/components/Heading/Heading';
+import SectionHeader from '@/app/components/layout/Heading';
 
 interface QASection {
     question: string;

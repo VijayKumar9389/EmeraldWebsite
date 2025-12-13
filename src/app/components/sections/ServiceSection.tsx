@@ -5,7 +5,7 @@ import Image from "next/image";
 import { FaClock, FaDollarSign, FaCouch, FaShieldAlt, FaMapMarkerAlt } from "react-icons/fa";
 import promoOne from "@/assets/promo/promoOne.jpg";
 import promoTwo from "@/assets/promo/promoTwo.jpg";
-import SectionHeader from "@/app/components/Heading/Heading";
+import SectionHeader from "@/app/components/layout/Heading";
 
 const blockOne = [
     {

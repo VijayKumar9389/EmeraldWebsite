@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { HiX } from "react-icons/hi";
+import {GrMenu} from "react-icons/gr";
 
 interface MobileMenuProps {
     isOpen: boolean;
@@ -24,7 +24,7 @@ export default function MobileMenu({ isOpen, toggleMenu, navLinks }: MobileMenuP
                         onClick={toggleMenu}
                         className="text-gray-700 hover:text-red-600 focus:outline-none"
                     >
-                        <HiX size={32} />
+                        <GrMenu size={32} />
                     </button>
                 </div>
 

@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { FaBath, FaBed } from 'react-icons/fa';
 import { FaTableList } from 'react-icons/fa6';
-import SectionHeader from '@/app/components/Heading/Heading';
+import SectionHeader from '@/app/components/layout/Heading';
 
 interface ListingDTO {
     id: number;

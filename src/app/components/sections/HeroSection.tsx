@@ -104,8 +104,8 @@ export default function HeroSection() {
                             className={`
                     transition-all duration-300 rounded-full 
                     ${isActive
-                                ? "w-8 h-3 bg-primary-color shadow-md shadow-primary-color/40"
-                                : "w-3 h-3 bg-gray-300 hover:bg-gray-400"
+                                ? "w-8 h-3 bg-primary-color shadow-md"
+                                : "w-3 h-3 bg-background-alt-color hover:bg-gray-400"
                             }
                 `}
                         />

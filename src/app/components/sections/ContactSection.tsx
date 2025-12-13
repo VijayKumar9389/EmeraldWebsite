@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { IoIosSend } from "react-icons/io";
-import "../globals.css";
+import "../../globals.css";
 
 interface FormData {
     name: string;

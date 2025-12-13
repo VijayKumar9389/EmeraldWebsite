@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@config "../../tailwind.config.js";
 
 :root {
   --background: #ffffff;
@@ -12,15 +13,101 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+/* styles/buttons.css */
+@import "tailwindcss";
+@config "../../tailwind.config.js";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary-color hover:bg-[#169f6f]
+    text-white font-semibold
+    px-7 py-3 rounded-lg
+    flex items-center gap-2
+    transition-all shadow-md
+    cursor-pointer;
+  }
+
+  .title {
+    @apply text-3xl md:text-5xl font-bold;
+  }
+
+  .heading {
+    @apply text-2xl md:text-4xl font-normal;
+  }
+
+  .subheading {
+    @apply text-xl font-semibold;
+  }
+
+  .paragraph {
+    @apply text-lg md:text-xl text-gray-600;
+  }
+
+  .form {
+    @apply space-y-4;
+  }
+
+  .form-group {
+    @apply flex flex-col;
+  }
+
+  .form-label {
+    @apply text-gray-700 font-medium mb-1;
+  }
+
+  .form-input {
+    @apply border border-gray-300 rounded-lg
+    px-4 py-3
+    focus:outline-none focus:ring-2
+    focus:ring-primary-color
+    transition;
+  }
+
+  .form-textarea {
+    @apply border border-gray-300 rounded-lg
+    px-4 py-2 resize-none
+    focus:outline-none focus:ring-2
+    focus:ring-primary-color
+    transition;
+  }
+
+  .form-static {
+    @apply bg-gray-100 px-4 py-2 rounded-lg text-gray-800;
+  }
+
+  .form-submit {
+    @apply w-full bg-primary-color hover:bg-[#169f6f]
+    text-white font-semibold
+    px-4 py-3 rounded-lg
+    flex items-center justify-center gap-2
+    transition shadow-md;
+  }
+
+  .form-status {
+    @apply text-center text-gray-700 font-medium mt-2;
+  }
 }
