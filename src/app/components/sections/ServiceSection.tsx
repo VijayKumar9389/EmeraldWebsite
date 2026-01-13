@@ -2,111 +2,190 @@
 
 import React from "react";
 import Image from "next/image";
-import { FaClock, FaDollarSign, FaCouch, FaShieldAlt, FaMapMarkerAlt } from "react-icons/fa";
+import {
+    HiOutlineShieldCheck,
+    HiOutlineLocationMarker,
+    HiOutlineClock,
+    HiOutlineCurrencyDollar,
+    HiOutlineHome,
+    HiOutlineSparkles,
+} from "react-icons/hi";
+
 import promoOne from "@/assets/promo/promoOne.jpg";
 import promoTwo from "@/assets/promo/promoTwo.jpg";
-import SectionHeader from "@/app/components/layout/Heading";
 
-const blockOne = [
+const features = [
     {
-        icon: <FaShieldAlt className="text-primary-color" />,
-        title: "Why Choose Emerald Executive Housing?",
+        icon: HiOutlineShieldCheck,
+        title: "Trusted & Reliable",
         description:
-            "We deliver exceptional service and ensure a comfortable, memorable stay for every guest.",
+            "Premium furnished rentals with consistently exceptional service and a commitment to guest comfort.",
     },
     {
-        icon: <FaMapMarkerAlt className="text-primary-color" />,
-        title: "Prime Windsor Locations",
+        icon: HiOutlineLocationMarker,
+        title: "Prime Locations",
         description:
-            "Near downtown, EC Row Expressway, shopping districts, and waterfront areas.",
+            "Strategically located near downtown Windsor, EC Row Expressway, shopping districts, and the waterfront.",
     },
     {
-        icon: <FaClock className="text-primary-color" />,
-        title: "Flexible Stay Options",
+        icon: HiOutlineClock,
+        title: "Flexible Stays",
         description:
-            "Short-term or long-term rentals tailored to your schedule and needs.",
-    },
-];
-
-const blockTwo = [
-    {
-        icon: <FaDollarSign className="text-primary-color" />,
-        title: "Affordable & Competitive Rates",
-        description:
-            "Premium accommodations at fair prices for unmatched value and comfort.",
+            "Short-term or extended rentals tailored to your schedule with hassle-free booking options.",
     },
     {
-        icon: <FaShieldAlt className="text-primary-color" />,
+        icon: HiOutlineCurrencyDollar,
+        title: "Competitive Rates",
+        description:
+            "Luxury executive housing at transparent, competitive rates without compromising on quality.",
+    },
+    {
+        icon: HiOutlineShieldCheck,
         title: "Safe & Secure",
         description:
-            "Security cameras, smoke/CO alarms, and secure entry points in every property.",
+            "All properties feature security cameras, smart locks, smoke and CO alarms for your peace of mind.",
     },
     {
-        icon: <FaCouch className="text-primary-color" />,
-        title: "Fully Equipped Amenities",
+        icon: HiOutlineHome,
+        title: "Fully Equipped",
         description:
-            "Modern kitchens, in-unit laundry, WiFi, entertainment, patios, and more.",
+            "Modern kitchens, in-unit laundry, high-speed WiFi, smart TVs, and premium linens included.",
     },
-
 ];
 
 const ServicesSection = () => {
     return (
-        <section className="py-20">
-            <SectionHeader
-                title="Why Choose Us?"
-                subtitle="Designed for comfort, convenience, and an elevated rental experience."
-            />
+        <section
+            id="services"
+            className="py-24"
+            aria-labelledby="services-heading"
+        >
+            {/* Section Header */}
+            <div className="text-center max-w-3xl mx-auto mb-16">
+                <span className="overline">Why Choose Us</span>
+                <h2 id="services-heading" className="heading mt-3">
+                    The Emerald Executive Difference
+                </h2>
+                <p className="paragraph mt-4">
+                    Experience thoughtfully designed spaces with premium amenities,
+                    exceptional service, and the flexibility modern professionals demand.
+                </p>
+            </div>
 
-            {/* ROW 1 */}
-            <div className="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                {/* Image Left */}
-                <div className="relative w-full h-[600px] rounded-xl overflow-hidden">
-                    <Image src={promoOne} alt="Services" fill className="object-cover" />
-                </div>
-
-                {/* Points Right */}
-                <div className="space-y-6">
-                    {blockOne.map((item, idx) => (
-                        <div
-                            key={idx}
-                            className="flex items-center gap-5 p-5 border border-gray-200 rounded-2xl"
-                        >
-                            <div className="flex-shrink-0 w-12 h-12 rounded-xl border border-primary-color bg-white flex items-center justify-center text-primary-color text-2xl transition-transform duration-300 hover:scale-110">
-                                {item.icon}
+            {/* Feature Grid - First Row */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                {/* Image */}
+                <div className="relative group order-1">
+                    <div className="relative h-[500px] lg:h-[600px] rounded-3xl overflow-hidden shadow-soft-lg">
+                        <Image
+                            src={promoOne}
+                            alt="Fully furnished executive rental suite in Windsor Ontario"
+                            fill
+                            sizes="(max-width: 1024px) 100vw, 50vw"
+                            className="object-cover transition-transform duration-700 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/30 to-transparent" />
+                    </div>
+                    {/* Floating Badge */}
+                    <div className="absolute -bottom-6 -right-6 lg:right-8 bg-white rounded-2xl shadow-soft-lg p-6 max-w-xs">
+                        <div className="flex items-center gap-3">
+                            <div className="icon-container-lg">
+                                <HiOutlineSparkles className="w-6 h-6" />
                             </div>
                             <div>
-                                <h3 className="subheading text-text-color">{item.title}</h3>
-                                <p className="text-light mt-1">{item.description}</p>
+                                <div className="font-semibold text-neutral-900">Move-In Ready</div>
+                                <div className="text-sm text-neutral-500">Fully furnished & equipped</div>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                {/* Features */}
+                <div className="space-y-4 order-2">
+                    {features.slice(0, 3).map((feature, idx) => (
+                        <article
+                            key={idx}
+                            className="group flex items-start gap-5 p-6 rounded-2xl bg-white border border-neutral-100 shadow-soft hover:shadow-soft-lg hover:border-primary-100 transition-all duration-300"
+                        >
+                            <div className="flex-shrink-0 icon-container-lg group-hover:bg-primary-100 transition-colors duration-300">
+                                <feature.icon className="w-6 h-6" />
+                            </div>
+                            <div>
+                                <h3 className="text-lg font-semibold text-neutral-900 group-hover:text-primary-700 transition-colors duration-300">
+                                    {feature.title}
+                                </h3>
+                                <p className="mt-2 text-neutral-600 leading-relaxed">
+                                    {feature.description}
+                                </p>
+                            </div>
+                        </article>
                     ))}
                 </div>
             </div>
 
-            {/* ROW 2 */}
-            <div className="mt-20 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                {/* Points Left */}
-                <div className="order-2 lg:order-1 space-y-6">
-                    {blockTwo.map((item, idx) => (
-                        <div
+            {/* Feature Grid - Second Row */}
+            <div className="mt-20 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                {/* Features */}
+                <div className="space-y-4 order-2 lg:order-1">
+                    {features.slice(3, 6).map((feature, idx) => (
+                        <article
                             key={idx}
-                            className="flex items-center gap-5 p-5 border border-gray-200 rounded-2xl"
+                            className="group flex items-start gap-5 p-6 rounded-2xl bg-white border border-neutral-100 shadow-soft hover:shadow-soft-lg hover:border-primary-100 transition-all duration-300"
                         >
-                            <div className="flex-shrink-0 w-12 h-12 rounded-xl border border-primary-color bg-white flex items-center justify-center text-primary-color text-2xl transition-transform duration-300 hover:scale-110">
-                                {item.icon}
+                            <div className="flex-shrink-0 icon-container-lg group-hover:bg-primary-100 transition-colors duration-300">
+                                <feature.icon className="w-6 h-6" />
                             </div>
                             <div>
-                                <h3 className="subheading text-text-color">{item.title}</h3>
-                                <p className="text-light mt-1">{item.description}</p>
+                                <h3 className="text-lg font-semibold text-neutral-900 group-hover:text-primary-700 transition-colors duration-300">
+                                    {feature.title}
+                                </h3>
+                                <p className="mt-2 text-neutral-600 leading-relaxed">
+                                    {feature.description}
+                                </p>
                             </div>
-                        </div>
+                        </article>
                     ))}
                 </div>
 
-                {/* Image Right */}
-                <div className="relative w-full h-[600px] rounded-xl overflow-hidden order-1 lg:order-2">
-                    <Image src={promoTwo} alt="Premium Rentals" fill className="object-cover" />
+                {/* Image */}
+                <div className="relative group order-1 lg:order-2">
+                    <div className="relative h-[500px] lg:h-[600px] rounded-3xl overflow-hidden shadow-soft-lg">
+                        <Image
+                            src={promoTwo}
+                            alt="Luxury executive housing with modern amenities in Windsor Ontario"
+                            fill
+                            sizes="(max-width: 1024px) 100vw, 50vw"
+                            className="object-cover transition-transform duration-700 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/30 to-transparent" />
+                    </div>
+                    {/* Floating Badge */}
+                    <div className="absolute -bottom-6 -left-6 lg:left-8 bg-white rounded-2xl shadow-soft-lg p-6 max-w-xs">
+                        <div className="flex items-center gap-3">
+                            <div className="icon-container-lg bg-accent-50 text-accent-600">
+                                <HiOutlineLocationMarker className="w-6 h-6" />
+                            </div>
+                            <div>
+                                <div className="font-semibold text-neutral-900">Prime Location</div>
+                                <div className="text-sm text-neutral-500">Windsor, Ontario</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Bottom CTA */}
+            <div className="mt-20 text-center">
+                <div className="inline-flex flex-col sm:flex-row items-center gap-4 p-6 rounded-2xl bg-neutral-50 border border-neutral-100">
+                    <p className="text-neutral-700">
+                        Ready to experience premium executive housing?
+                    </p>
+                    <a
+                        href="#listings"
+                        className="btn-primary"
+                    >
+                        Browse Properties
+                    </a>
                 </div>
             </div>
         </section>

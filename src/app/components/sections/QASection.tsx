@@ -1,108 +1,179 @@
-'use client';
+"use client";
 
-import {useState} from 'react';
-import {FaChevronDown} from 'react-icons/fa';
-import SectionHeader from '@/app/components/layout/Heading';
+import { useState } from "react";
+import { HiOutlineChevronDown, HiOutlineQuestionMarkCircle } from "react-icons/hi";
+import Script from "next/script";
 
-interface QASection {
+interface FAQItem {
     question: string;
     answer: string;
 }
 
+const questions: FAQItem[] = [
+    {
+        question: "What types of properties do you offer?",
+        answer:
+            "We offer a variety of premium rental properties including modern condos, luxury penthouses, and spacious townhouses. Each property is fully furnished with high-end amenities and designed for both short-term and extended stays.",
+    },
+    {
+        question: "Where are your properties located?",
+        answer:
+            "Our properties are strategically located throughout Windsor, Ontario, including downtown, near EC Row Expressway, shopping districts, the waterfront, and close to attractions like Caesars Windsor and the Ambassador Bridge.",
+    },
+    {
+        question: "What amenities are included in your rentals?",
+        answer:
+            "All rentals include modern kitchens with premium appliances, in-unit laundry, high-speed WiFi, smart TVs, climate control, and quality linens. Select properties also feature pools, fitness centers, balconies, and dedicated parking.",
+    },
+    {
+        question: "Do you offer both short-term and long-term stays?",
+        answer:
+            "Yes! We offer flexible booking options to accommodate your needs. Whether you need a week-long business stay or a year-long residence, we have options available with customizable lease terms.",
+    },
+    {
+        question: "How secure are your properties?",
+        answer:
+            "Safety is our priority. All properties feature security cameras, smart locks, smoke and CO detectors, and secure entry systems. Our buildings are well-maintained and located in safe neighborhoods.",
+    },
+    {
+        question: "Is parking available at your properties?",
+        answer:
+            "Yes, most of our properties include complimentary parking. Some locations offer additional parking options or nearby street parking. Details are provided for each specific listing.",
+    },
+    {
+        question: "What is your pet policy?",
+        answer:
+            "Currently, our properties are pet-free to maintain the highest standards of cleanliness and comfort for all guests. We apologize for any inconvenience this may cause.",
+    },
+    {
+        question: "How close are properties to local attractions?",
+        answer:
+            "Our rentals are conveniently located near shopping centers, parks, hospitals, restaurants, and the Windsor-Detroit border crossings. Most amenities and attractions are within a short drive or walking distance.",
+    },
+];
+
 export default function QASection() {
     const [activeIndex, setActiveIndex] = useState<number | null>(null);
-
-    const questions: QASection[] = [
-        {
-            question: 'What types of properties do you offer?',
-            answer:
-                'We offer a variety of rental properties including condos, penthouses, and townhouses. Each is fully furnished and designed for comfort, whether for short-term or long-term stays.',
-        },
-        {
-            question: 'Where are your properties located?',
-            answer:
-                'Our properties are strategically located across Windsor, including downtown, near EC Row Expressway, shopping districts, the waterfront, and close to key attractions like Caesars Windsor and major bridges.',
-        },
-        {
-            question: 'What amenities are included?',
-            answer:
-                'All rentals come equipped with modern kitchens, in-unit laundry, WiFi, climate control, TV, and essentials like towels, linens, and toiletries. Some properties also include pools, gyms, and balconies.',
-        },
-        {
-            question: 'Can I stay short-term or long-term?',
-            answer:
-                'Yes! We accommodate both short-term stays and long-term rentals with fully flexible lease options.',
-        },
-        {
-            question: 'Are your properties safe and secure?',
-            answer:
-                'Absolutely. Our properties feature alarms, exterior cameras, and secure entry points.',
-        },
-        {
-            question: 'Is parking available?',
-            answer:
-                'Yes, most properties include free parking and some offer additional paid or street parking.',
-        },
-        {
-            question: 'Are pets allowed?',
-            answer:
-                'Unfortunately, none of our current properties allow pets such as dogs or cats.',
-        },
-        {
-            question: 'How close are the properties to attractions?',
-            answer:
-                'Our rentals are near shopping, parks, hospitals, and Windsor-Detroit border crossings.',
-        },
-    ];
 
     const toggleAnswer = (index: number) => {
         setActiveIndex(index === activeIndex ? null : index);
     };
 
+    const faqSchema = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: questions.map((qa) => ({
+            "@type": "Question",
+            name: qa.question,
+            acceptedAnswer: {
+                "@type": "Answer",
+                text: qa.answer,
+            },
+        })),
+    };
+
     return (
-        <section className="w-full">
-            <SectionHeader
-                title="Frequently Asked Questions"
-                subtitle="Got questions about our rental properties or leasing process? Here are our most common answers."
+        <section id="faq" aria-labelledby="faq-heading" className="py-24">
+            <Script
+                id="faq-json-ld"
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
             />
 
-            <div className="mx-auto border-t border-gray-200 divide-y divide-gray-200 mt-8">
-                {questions.map((qa, index) => {
-                    const isActive = index === activeIndex;
-                    return (
-                        <div
-                            key={index}
-                            className=" cursor-pointer hover:bg-background-alt-color transition py-4 px-3"
-                            onClick={() => toggleAnswer(index)}
-                        >
-                            {/* Question */}
-                            <div
-                                className={`flex justify-between items-center transition-colors duration-300 ${
-                                    isActive ? 'text-primary-color' : 'text-text-color'
-                                }`}
-                            >
-                                <h5 className="subheading">{qa.question}</h5>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+                {/* Left Column - Header */}
+                <div className="lg:col-span-4">
+                    <div className="lg:sticky lg:top-32">
+                        <span className="overline">Support</span>
+                        <h2 id="faq-heading" className="heading mt-3">
+                            Frequently Asked Questions
+                        </h2>
+                        <p className="paragraph mt-4">
+                            Find answers to common questions about our properties, booking process, and amenities.
+                        </p>
 
-                                <FaChevronDown
-                                    className={`icon text-lg transition-transform duration-300 ${
-                                        isActive ? 'rotate-180 text-primary-color' : 'text-text-color'
-                                    }`}
-                                />
-                            </div>
-
-                            {/* Answer */}
-                            <div
-                                className={`text-text-light mt-2 overflow-hidden transition-all duration-300 ${
-                                    isActive
-                                        ? 'max-h-96 opacity-100'
-                                        : 'max-h-0 opacity-0'
-                                }`}
-                            >
-                                <p className="leading-relaxed">{qa.answer}</p>
+                        {/* Contact CTA */}
+                        <div className="mt-8 p-6 rounded-2xl bg-primary-50 border border-primary-100">
+                            <div className="flex items-start gap-4">
+                                <div className="icon-container-lg bg-primary-100">
+                                    <HiOutlineQuestionMarkCircle className="w-6 h-6" />
+                                </div>
+                                <div>
+                                    <h3 className="font-semibold text-neutral-900">
+                                        Still have questions?
+                                    </h3>
+                                    <p className="mt-1 text-sm text-neutral-600">
+                                        Our team is here to help with any inquiries.
+                                    </p>
+                                    <a
+                                        href="#contact"
+                                        className="inline-flex items-center gap-2 mt-4 text-sm font-semibold text-primary-600 hover:text-primary-700 transition-colors"
+                                    >
+                                        Contact us
+                                        <span aria-hidden="true">&rarr;</span>
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                    );
-                })}
+                    </div>
+                </div>
+
+                {/* Right Column - FAQ List */}
+                <div className="lg:col-span-8">
+                    <dl className="space-y-4">
+                        {questions.map((qa, index) => {
+                            const isActive = index === activeIndex;
+                            return (
+                                <div
+                                    key={index}
+                                    className={`rounded-2xl border transition-all duration-300 ${
+                                        isActive
+                                            ? "bg-white border-primary-200 shadow-soft"
+                                            : "bg-neutral-50 border-transparent hover:bg-white hover:border-neutral-200"
+                                    }`}
+                                >
+                                    <dt>
+                                        <button
+                                            onClick={() => toggleAnswer(index)}
+                                            className="w-full flex items-center justify-between gap-4 p-6 text-left cursor-pointer"
+                                            aria-expanded={isActive}
+                                            aria-controls={`faq-answer-${index}`}
+                                        >
+                                            <span
+                                                className={`text-lg font-semibold transition-colors duration-300 ${
+                                                    isActive ? "text-primary-700" : "text-neutral-900"
+                                                }`}
+                                            >
+                                                {qa.question}
+                                            </span>
+                                            <span
+                                                className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
+                                                    isActive
+                                                        ? "bg-primary-100 text-primary-600 rotate-180"
+                                                        : "bg-neutral-200 text-neutral-600"
+                                                }`}
+                                            >
+                                                <HiOutlineChevronDown className="w-5 h-5" />
+                                            </span>
+                                        </button>
+                                    </dt>
+                                    <dd
+                                        id={`faq-answer-${index}`}
+                                        className={`overflow-hidden transition-all duration-300 ${
+                                            isActive ? "max-h-96" : "max-h-0"
+                                        }`}
+                                    >
+                                        <div className="px-6 pb-6">
+                                            <p className="text-neutral-600 leading-relaxed">
+                                                {qa.answer}
+                                            </p>
+                                        </div>
+                                    </dd>
+                                </div>
+                            );
+                        })}
+                    </dl>
+                </div>
             </div>
         </section>
     );
