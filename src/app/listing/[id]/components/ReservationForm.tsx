@@ -95,11 +95,11 @@ export default function BookingPopup({
 
             {/* Modal */}
             <div
-                className="relative bg-white rounded-3xl shadow-soft-xl w-full max-w-lg max-h-[90vh] overflow-y-auto"
+                className="relative bg-white rounded-2xl shadow-soft-xl w-full max-w-lg max-h-[90vh] overflow-y-auto"
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* Header */}
-                <div className="sticky top-0 bg-white px-6 py-5 border-b border-neutral-100 rounded-t-3xl z-10">
+                <div className="sticky top-0 bg-white px-6 py-5 border-b border-neutral-100 rounded-t-2xl z-10">
                     <div className="flex justify-between items-center">
                         <div>
                             <h2 className="text-xl font-semibold text-neutral-900">

@@ -56,8 +56,10 @@ module.exports = {
                 'text-light': '#525252',
             },
             fontFamily: {
-                'sans': ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
-                'display': ['Inter', 'system-ui', 'sans-serif'],
+                'heading': ['var(--font-playfair)', 'Georgia', 'serif'],
+                'body': ['var(--font-dm-sans)', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+                'sans': ['var(--font-dm-sans)', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+                'display': ['var(--font-playfair)', 'Georgia', 'serif'],
             },
             fontSize: {
                 'display-2xl': ['4.5rem', { lineHeight: '1', letterSpacing: '-0.02em', fontWeight: '700' }],

@@ -73,7 +73,7 @@ export default function HeroSection() {
             aria-label="Featured luxury furnished rental suites"
         >
             {/* Main Hero Container */}
-            <div className="relative w-full h-[85vh] min-h-[600px] max-h-[900px] rounded-3xl overflow-hidden shadow-soft-xl">
+            <div className="relative w-full h-[88vh] min-h-[600px] max-h-[950px] rounded-2xl overflow-hidden shadow-soft-xl">
                 {/* Slides */}
                 {slides.map((slide, index) => (
                     <article
@@ -172,14 +172,14 @@ export default function HeroSection() {
                                     >
                                         <Link
                                             href="#listings"
-                                            className="inline-flex items-center gap-2 px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+                                            className="inline-flex items-center gap-2 px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
                                         >
                                             View Properties
                                             <HiArrowRight className="w-5 h-5" />
                                         </Link>
                                         <Link
                                             href="#contact"
-                                            className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-semibold rounded-xl border border-white/20 transition-all duration-200"
+                                            className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-semibold rounded-lg border border-white/20 transition-all duration-200"
                                         >
                                             Contact Us
                                         </Link>
@@ -230,28 +230,6 @@ export default function HeroSection() {
                         );
                     })}
                 </div>
-            </div>
-
-            {/* Stats Bar */}
-            <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
-                {[
-                    { value: "3+", label: "Premium Properties" },
-                    { value: "100%", label: "Fully Furnished" },
-                    { value: "24/7", label: "Guest Support" },
-                    { value: "5-Star", label: "Guest Experience" },
-                ].map((stat, index) => (
-                    <div
-                        key={index}
-                        className="text-center p-6 rounded-2xl bg-neutral-50 border border-neutral-100"
-                    >
-                        <div className="text-2xl md:text-3xl font-bold text-primary-600">
-                            {stat.value}
-                        </div>
-                        <div className="mt-1 text-sm text-neutral-600">
-                            {stat.label}
-                        </div>
-                    </div>
-                ))}
             </div>
         </section>
     );

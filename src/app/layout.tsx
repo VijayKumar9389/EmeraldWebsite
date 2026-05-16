@@ -1,11 +1,17 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Playfair_Display, DM_Sans } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
+const playfair = Playfair_Display({
     subsets: ["latin"],
     display: "swap",
-    variable: "--font-inter",
+    variable: "--font-playfair",
+});
+
+const dmSans = DM_Sans({
+    subsets: ["latin"],
+    display: "swap",
+    variable: "--font-dm-sans",
 });
 
 export const viewport: Viewport = {
@@ -82,6 +88,9 @@ export const metadata: Metadata = {
         canonical: "https://www.emeraldexecutivehousing.net",
     },
     category: "Real Estate",
+    verification: {
+        google: "your-google-verification-code", // Replace with actual verification code
+    },
 };
 
 export default function RootLayout({
@@ -90,12 +99,12 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en" className={inter.variable}>
+        <html lang="en" className={`${playfair.variable} ${dmSans.variable}`}>
             <head>
                 <link rel="icon" href="/favicon.ico" sizes="any" />
                 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
             </head>
-            <body className="font-sans antialiased bg-white text-neutral-900">
+            <body className="font-body antialiased bg-white text-neutral-900">
                 {children}
             </body>
         </html>

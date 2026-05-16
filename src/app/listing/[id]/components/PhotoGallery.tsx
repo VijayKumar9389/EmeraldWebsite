@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
 import { HiOutlineChevronLeft, HiOutlineChevronRight, HiOutlineX } from "react-icons/hi";
 import { IoExpand } from "react-icons/io5";
 
@@ -27,12 +28,50 @@ export default function PhotoGallery({ photos, title }: Props) {
         setIsLightboxOpen(true);
     };
 
+    const closeLightbox = () => {
+        setIsLightboxOpen(false);
+    };
+
+    // Keyboard navigation
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (!isLightboxOpen) return;
+
+            switch (e.key) {
+                case "Escape":
+                    closeLightbox();
+                    break;
+                case "ArrowRight":
+                    showNext();
+                    break;
+                case "ArrowLeft":
+                    showPrev();
+                    break;
+            }
+        };
+
+        window.addEventListener("keydown", handleKeyDown);
+        return () => window.removeEventListener("keydown", handleKeyDown);
+    }, [isLightboxOpen, showNext, showPrev]);
+
+    // Prevent body scroll when lightbox is open
+    useEffect(() => {
+        if (isLightboxOpen) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "unset";
+        }
+        return () => {
+            document.body.style.overflow = "unset";
+        };
+    }, [isLightboxOpen]);
+
     return (
         <>
             {/* Main Gallery */}
             <div className="space-y-4">
                 {/* Main Image */}
-                <div className="relative w-full h-[400px] md:h-[500px] lg:h-[600px] rounded-3xl overflow-hidden shadow-soft-lg group">
+                <div className="relative w-full h-[400px] md:h-[500px] lg:h-[600px] rounded-2xl overflow-hidden shadow-soft-lg group">
                     <Image
                         src={photos[currentIndex]}
                         alt={`${title} - Photo ${currentIndex + 1}`}
@@ -65,7 +104,7 @@ export default function PhotoGallery({ photos, title }: Props) {
                     {/* Expand Button */}
                     <button
                         onClick={() => openLightbox(currentIndex)}
-                        className="absolute top-4 right-4 w-10 h-10 rounded-xl bg-white/90 hover:bg-white shadow-soft flex items-center justify-center text-neutral-700 hover:text-neutral-900 transition-all duration-200 opacity-0 group-hover:opacity-100"
+                        className="absolute top-4 right-4 w-10 h-10 rounded-lg bg-white/90 hover:bg-white shadow-soft flex items-center justify-center text-neutral-700 hover:text-neutral-900 transition-all duration-200 opacity-0 group-hover:opacity-100"
                         aria-label="View fullscreen"
                     >
                         <IoExpand className="w-5 h-5" />
@@ -85,7 +124,7 @@ export default function PhotoGallery({ photos, title }: Props) {
                         <button
                             key={i}
                             onClick={() => setCurrentIndex(i)}
-                            className={`relative aspect-square rounded-xl overflow-hidden transition-all duration-200 ${
+                            className={`relative aspect-square rounded-lg overflow-hidden transition-all duration-200 ${
                                 i === currentIndex
                                     ? "ring-2 ring-primary-500 ring-offset-2"
                                     : "hover:opacity-80"
@@ -115,92 +154,108 @@ export default function PhotoGallery({ photos, title }: Props) {
             </div>
 
             {/* Lightbox */}
-            {isLightboxOpen && (
-                <div
-                    className="fixed inset-0 z-50 bg-neutral-900/95 flex items-center justify-center"
-                    onClick={() => setIsLightboxOpen(false)}
-                >
-                    {/* Close Button */}
-                    <button
-                        onClick={() => setIsLightboxOpen(false)}
-                        className="absolute top-6 right-6 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors z-10"
-                        aria-label="Close lightbox"
+            <AnimatePresence>
+                {isLightboxOpen && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="fixed inset-0 z-50 bg-neutral-900 flex flex-col"
+                        onClick={closeLightbox}
                     >
-                        <HiOutlineX className="w-6 h-6" />
-                    </button>
-
-                    {/* Navigation */}
-                    <button
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            showPrev();
-                        }}
-                        className="absolute left-6 top-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors"
-                        aria-label="Previous photo"
-                    >
-                        <HiOutlineChevronLeft className="w-8 h-8" />
-                    </button>
-
-                    <button
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            showNext();
-                        }}
-                        className="absolute right-6 top-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors"
-                        aria-label="Next photo"
-                    >
-                        <HiOutlineChevronRight className="w-8 h-8" />
-                    </button>
-
-                    {/* Image */}
-                    <div
-                        className="relative w-full h-full max-w-6xl max-h-[85vh] mx-auto px-20"
-                        onClick={(e) => e.stopPropagation()}
-                    >
-                        <Image
-                            src={photos[currentIndex]}
-                            alt={`${title} - Photo ${currentIndex + 1}`}
-                            fill
-                            className="object-contain"
-                            sizes="100vw"
-                            priority
-                        />
-                    </div>
-
-                    {/* Counter */}
-                    <div className="absolute bottom-6 left-1/2 -translate-x-1/2 px-6 py-3 rounded-full bg-white/10 backdrop-blur-sm">
-                        <span className="text-white font-medium">
-                            {currentIndex + 1} / {photos.length}
-                        </span>
-                    </div>
-
-                    {/* Thumbnail Strip */}
-                    <div className="absolute bottom-20 left-1/2 -translate-x-1/2 flex gap-2 max-w-4xl overflow-x-auto px-4 py-2">
-                        {photos.map((src, i) => (
+                        {/* Header */}
+                        <div className="flex-shrink-0 flex items-center justify-between px-4 py-3 md:px-6 md:py-4">
+                            <div className="text-white/75 font-medium text-sm md:text-base">
+                                {currentIndex + 1} / {photos.length}
+                            </div>
                             <button
-                                key={i}
+                                onClick={closeLightbox}
+                                className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors"
+                                aria-label="Close lightbox"
+                            >
+                                <HiOutlineX className="w-5 h-5 md:w-6 md:h-6" />
+                            </button>
+                        </div>
+
+                        {/* Main Image Area */}
+                        <div
+                            className="flex-1 flex items-center justify-center px-4 md:px-20 min-h-0"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            {/* Previous Button */}
+                            <button
                                 onClick={(e) => {
                                     e.stopPropagation();
-                                    setCurrentIndex(i);
+                                    showPrev();
                                 }}
-                                className={`relative w-16 h-16 flex-shrink-0 rounded-lg overflow-hidden transition-all ${
-                                    i === currentIndex
-                                        ? "ring-2 ring-white opacity-100"
-                                        : "opacity-50 hover:opacity-75"
-                                }`}
+                                className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors mr-2 md:mr-4"
+                                aria-label="Previous photo"
+                            >
+                                <HiOutlineChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
+                            </button>
+
+                            {/* Image */}
+                            <motion.div
+                                key={currentIndex}
+                                initial={{ opacity: 0, scale: 0.95 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ duration: 0.2 }}
+                                className="relative flex-1 h-full max-w-5xl"
                             >
                                 <Image
-                                    src={src}
-                                    alt={`Thumbnail ${i + 1}`}
+                                    src={photos[currentIndex]}
+                                    alt={`${title} - Photo ${currentIndex + 1}`}
                                     fill
-                                    className="object-cover"
-                                    sizes="64px"
+                                    className="object-contain"
+                                    sizes="100vw"
+                                    priority
                                 />
+                            </motion.div>
+
+                            {/* Next Button */}
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    showNext();
+                                }}
+                                className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors ml-2 md:ml-4"
+                                aria-label="Next photo"
+                            >
+                                <HiOutlineChevronRight className="w-5 h-5 md:w-6 md:h-6" />
                             </button>
-                        ))}
-                    </div>
-                </div>
-            )}
+                        </div>
+
+                        {/* Thumbnail Strip */}
+                        <div
+                            className="flex-shrink-0 px-4 py-4 md:py-6"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <div className="flex justify-center gap-2 md:gap-3 overflow-x-auto scrollbar-hide">
+                                {photos.map((src, i) => (
+                                    <button
+                                        key={i}
+                                        onClick={() => setCurrentIndex(i)}
+                                        className={`relative flex-shrink-0 w-16 h-12 md:w-20 md:h-14 lg:w-24 lg:h-16 rounded-lg overflow-hidden transition-all ${
+                                            i === currentIndex
+                                                ? "ring-2 ring-primary-500 opacity-100"
+                                                : "opacity-40 hover:opacity-70"
+                                        }`}
+                                    >
+                                        <Image
+                                            src={src}
+                                            alt={`Thumbnail ${i + 1}`}
+                                            fill
+                                            className="object-cover"
+                                            sizes="96px"
+                                        />
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </>
     );
 }

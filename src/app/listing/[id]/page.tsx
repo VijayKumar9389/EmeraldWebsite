@@ -1,10 +1,10 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Script from "next/script";
 import path from "path";
 import fs from "fs/promises";
 import ListingClient from "./ListingClient";
 import Footer from "@/app/components/layout/Footer";
+import { ListingPageStructuredData } from "@/lib/seo/structured-data";
 
 interface Listing {
     id: number;
@@ -126,120 +126,10 @@ export default async function ListingPage({
         notFound();
     }
 
-    const shortTitle = listing.title.split(",")[0];
-
-    // JSON-LD Structured Data for the property
-    const propertySchema = {
-        "@context": "https://schema.org",
-        "@type": "Accommodation",
-        "@id": `https://www.emeraldexecutivehousing.net/listing/${listing.id}`,
-        name: listing.title,
-        description: listing.description,
-        url: `https://www.emeraldexecutivehousing.net/listing/${listing.id}`,
-        image: listing.photos.map(
-            (photo) => `https://www.emeraldexecutivehousing.net${photo}`
-        ),
-        address: {
-            "@type": "PostalAddress",
-            streetAddress: shortTitle,
-            addressLocality: listing.location.city,
-            addressRegion: listing.location.state,
-            postalCode: listing.location.zip,
-            addressCountry: "CA",
-        },
-        geo: {
-            "@type": "GeoCoordinates",
-            latitude: 42.3149,
-            longitude: -83.0364,
-        },
-        numberOfRooms: listing.bedrooms,
-        numberOfBathroomsTotal: listing.bathrooms,
-        floorSize: {
-            "@type": "QuantitativeValue",
-            value: parseInt(listing.size.replace(/[^0-9]/g, "")),
-            unitCode: "SQF",
-        },
-        amenityFeature: listing.amenities.map((amenity) => ({
-            "@type": "LocationFeatureSpecification",
-            name: amenity,
-            value: true,
-        })),
-        petsAllowed: listing.amenities.includes("Pets allowed"),
-        smokingAllowed: false,
-    };
-
-    const offerSchema = {
-        "@context": "https://schema.org",
-        "@type": "Offer",
-        name: `Rent ${shortTitle}`,
-        description: `Furnished ${listing.propertyType.toLowerCase()} rental in ${listing.location.city}`,
-        url: `https://www.emeraldexecutivehousing.net/listing/${listing.id}`,
-        price: listing.price.replace(/[^0-9]/g, ""),
-        priceCurrency: "CAD",
-        priceSpecification: {
-            "@type": "UnitPriceSpecification",
-            price: listing.price.replace(/[^0-9]/g, ""),
-            priceCurrency: "CAD",
-            unitText: "night",
-        },
-        availability: "https://schema.org/InStock",
-        validFrom: new Date().toISOString(),
-        seller: {
-            "@type": "Organization",
-            name: "Emerald Executive Housing",
-            url: "https://www.emeraldexecutivehousing.net",
-        },
-    };
-
-    const breadcrumbSchema = {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        itemListElement: [
-            {
-                "@type": "ListItem",
-                position: 1,
-                name: "Home",
-                item: "https://www.emeraldexecutivehousing.net",
-            },
-            {
-                "@type": "ListItem",
-                position: 2,
-                name: "Properties",
-                item: "https://www.emeraldexecutivehousing.net/#listings",
-            },
-            {
-                "@type": "ListItem",
-                position: 3,
-                name: shortTitle,
-                item: `https://www.emeraldexecutivehousing.net/listing/${listing.id}`,
-            },
-        ],
-    };
-
     return (
         <>
             {/* Structured Data */}
-            <Script
-                id="property-schema"
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{
-                    __html: JSON.stringify(propertySchema),
-                }}
-            />
-            <Script
-                id="offer-schema"
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{
-                    __html: JSON.stringify(offerSchema),
-                }}
-            />
-            <Script
-                id="breadcrumb-schema"
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{
-                    __html: JSON.stringify(breadcrumbSchema),
-                }}
-            />
+            <ListingPageStructuredData listing={listing} />
 
             <div className="min-h-screen bg-white">
                 <ListingClient listing={listing} />

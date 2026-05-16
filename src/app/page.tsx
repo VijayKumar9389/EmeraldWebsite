@@ -1,11 +1,12 @@
 import HeroSection from "@/app/components/sections/HeroSection";
+import AboutSection from "@/app/components/sections/AboutSection";
+import WhatWeOfferSection from "@/app/components/sections/WhatWeOfferSection";
 import PropertyList from "@/app/components/sections/ListingSection";
-import Services from "@/app/components/sections/ServiceSection";
 import QASection from "@/app/components/sections/QASection";
 import ContactForm from "@/app/components/sections/ContactSection";
 import Navbar from "@/app/components/layout/Navbar";
 import Footer from "@/app/components/layout/Footer";
-import Script from "next/script";
+import { HomePageStructuredData } from "@/lib/seo/structured-data";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -28,115 +29,11 @@ export const metadata: Metadata = {
     },
 };
 
-const organizationSchema = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name: "Emerald Executive Housing",
-    url: "https://www.emeraldexecutivehousing.net",
-    logo: "https://www.emeraldexecutivehousing.net/logo.png",
-    description:
-        "Premium furnished executive rentals in Windsor, Ontario. Luxury accommodations for professionals and families.",
-    address: {
-        "@type": "PostalAddress",
-        addressLocality: "Windsor",
-        addressRegion: "Ontario",
-        addressCountry: "CA",
-    },
-    contactPoint: {
-        "@type": "ContactPoint",
-        telephone: "+1-778-846-2702",
-        contactType: "customer service",
-        email: "Rhea@emeraldexecutivehousing.com",
-        availableLanguage: ["English"],
-    },
-    sameAs: [],
-};
-
-const localBusinessSchema = {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "@id": "https://www.emeraldexecutivehousing.net/#business",
-    name: "Emerald Executive Housing",
-    description:
-        "Premium furnished executive rentals in Windsor, Ontario. Luxury accommodations with modern amenities for short-term and extended stays.",
-    url: "https://www.emeraldexecutivehousing.net",
-    telephone: "+1-778-846-2702",
-    email: "Rhea@emeraldexecutivehousing.com",
-    address: {
-        "@type": "PostalAddress",
-        addressLocality: "Windsor",
-        addressRegion: "Ontario",
-        postalCode: "",
-        addressCountry: "CA",
-    },
-    geo: {
-        "@type": "GeoCoordinates",
-        latitude: 42.3149,
-        longitude: -83.0364,
-    },
-    areaServed: {
-        "@type": "City",
-        name: "Windsor",
-        containedInPlace: {
-            "@type": "AdministrativeArea",
-            name: "Ontario",
-        },
-    },
-    priceRange: "$$",
-    openingHoursSpecification: {
-        "@type": "OpeningHoursSpecification",
-        dayOfWeek: [
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday",
-            "Saturday",
-            "Sunday",
-        ],
-        opens: "00:00",
-        closes: "23:59",
-    },
-};
-
-const websiteSchema = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: "Emerald Executive Housing",
-    url: "https://www.emeraldexecutivehousing.net",
-    description:
-        "Premium furnished executive rentals in Windsor, Ontario.",
-    publisher: {
-        "@type": "Organization",
-        name: "Emerald Executive Housing",
-    },
-};
-
 export default function Home() {
     return (
         <>
             {/* Structured Data for SEO */}
-            <Script
-                id="organization-schema"
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{
-                    __html: JSON.stringify(organizationSchema),
-                }}
-            />
-            <Script
-                id="local-business-schema"
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{
-                    __html: JSON.stringify(localBusinessSchema),
-                }}
-            />
-            <Script
-                id="website-schema"
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{
-                    __html: JSON.stringify(websiteSchema),
-                }}
-            />
+            <HomePageStructuredData />
 
             <div className="min-h-screen bg-white">
                 {/* Navigation */}
@@ -144,25 +41,24 @@ export default function Home() {
 
                 {/* Main Content */}
                 <main>
-                    {/* Hero Section */}
+                    {/* Hero Section - wider with minimal padding, max-width for large screens */}
                     <section
                         aria-label="Featured luxury rentals"
-                        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4"
+                        className="max-w-[1920px] mx-auto px-3 sm:px-4 lg:px-6 pt-4 pb-16 lg:pb-24"
                     >
                         <HeroSection />
                     </section>
 
-                    {/* Services Section */}
-                    <section
-                        aria-label="Why choose Emerald Executive Housing"
-                        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
-                    >
-                        <Services />
-                    </section>
+                    {/* About Section */}
+                    <AboutSection />
+
+                    {/* What We Offer Section */}
+                    <WhatWeOfferSection />
 
                     {/* Property Listings */}
                     <div className="bg-neutral-50">
                         <section
+                            id="listings"
                             aria-label="Available furnished rentals"
                             className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
                         >

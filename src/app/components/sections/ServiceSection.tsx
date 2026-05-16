@@ -76,7 +76,7 @@ const ServicesSection = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
                 {/* Image */}
                 <div className="relative group order-1">
-                    <div className="relative h-[500px] lg:h-[600px] rounded-3xl overflow-hidden shadow-soft-lg">
+                    <div className="relative h-[500px] lg:h-[600px] rounded-2xl overflow-hidden shadow-soft-lg">
                         <Image
                             src={promoOne}
                             alt="Fully furnished executive rental suite in Windsor Ontario"
@@ -149,7 +149,7 @@ const ServicesSection = () => {
 
                 {/* Image */}
                 <div className="relative group order-1 lg:order-2">
-                    <div className="relative h-[500px] lg:h-[600px] rounded-3xl overflow-hidden shadow-soft-lg">
+                    <div className="relative h-[500px] lg:h-[600px] rounded-2xl overflow-hidden shadow-soft-lg">
                         <Image
                             src={promoTwo}
                             alt="Luxury executive housing with modern amenities in Windsor Ontario"
